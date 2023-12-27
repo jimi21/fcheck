@@ -1,0 +1,34 @@
+description: >
+  Formatting files with Black, iSort
+
+parameters:
+  path:
+    type: string
+    default: "."
+    description: "Path to file[s]"
+  config:
+    type: string
+    default: "pyproject.toml"
+    description: "Path to configuration file"
+  verbose:
+    type: boolean
+    default: false
+    description: Also emit messages to stderr about files that were not changed
+  quiet:
+    type: boolean
+    default: false
+    description: Don't emit non-error messages to stderr. Errors are still emitted.
+  profile:
+    type: string
+    default: "black"
+    description: "Profile to use with isort"
+steps:
+  - run:
+      environment:
+        PARAM_PATH: <<parameters.path>>
+        PARAM_CONFIG: <<parameters.config>>
+        PARAM_VERBOSE: <<parameters.verbose>>
+        PARAM_QUITE: <<parameters.quiet>>
+        PARAM_PROFILE: <<parameters.profile>>
+      name: Run black and isort
+      command: <<include(scripts/format.sh)>>
